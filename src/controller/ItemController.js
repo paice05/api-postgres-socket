@@ -5,7 +5,7 @@ const BaseController = require('./BaseController');
 
 class ItemController extends BaseController {
   constructor() {
-    super(Items, '/items');
+    super(Items, '/items', 'ITEMS');
   }
 
   routes() {

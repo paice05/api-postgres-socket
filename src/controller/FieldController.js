@@ -5,7 +5,7 @@ const BaseController = require('./BaseController');
 
 class FieldController extends BaseController {
   constructor() {
-    super(Fields, '/fields');
+    super(Fields, '/fields', 'FIELDS');
   }
 
   routes() {

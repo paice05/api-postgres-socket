@@ -9,7 +9,7 @@ const BaseController = require('./BaseController');
 
 class UserController extends BaseController {
   constructor() {
-    super(User, '/users');
+    super(User, '/users', 'USERS');
   }
 
   async login(req, res) {

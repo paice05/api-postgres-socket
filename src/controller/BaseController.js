@@ -6,20 +6,23 @@ const auth = require('../middleware/auth');
 // utils
 const { generateHash } = require('../utils/hash');
 
+const methods = {
+  CREATE: 'CREATE',
+  UPDATE: 'UPDATE',
+  DESTROY: 'DESTROY'
+};
+
 class BaseController {
-  constructor(model, path) {
+  constructor(model, path, name) {
     this.model = model;
     this.path = path;
+    this.name = name;
   }
 
   async index(req, res) {
-    try {
-      const response = await this.model.findAll();
+    const response = await this.model.findAll();
 
-      return res.json(response);
-    } catch (error) {
-      return res.json(error);
-    }
+    return res.json(response);
   }
 
   async show(req, res) {
@@ -41,9 +44,11 @@ class BaseController {
     try {
       const response = await this.model.create(req.body);
 
+      req.io.emit(`${methods.CREATE}.${this.name}`, response);
+
       return res.json(response);
     } catch (error) {
-      return res.status(500).json({ message: String(error) });
+      return res.status(500).json({ message: error });
     }
   }
 
@@ -62,6 +67,8 @@ class BaseController {
 
     const response = await this.model.findByPk(id);
 
+    req.io.emit(`${methods.UPDATE}.${this.name}`, response);
+
     return res.json(response);
   }
 
@@ -73,6 +80,8 @@ class BaseController {
     if (!isRecord) return res.json({ message: 'record not found!' });
 
     await this.model.destroy({ where: { id } });
+
+    req.io.emit(`${methods.DESTROY}.${this.name}`, {});
 
     return res.send();
   }
