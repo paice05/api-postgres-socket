@@ -9,14 +9,8 @@ const Item = require('../models/Items');
 
 const connection = new Sequelize(dbConfig);
 
-User.init(connection);
-Address.init(connection);
-Field.init(connection);
-Item.init(connection);
+const models = [User, Address, Field, Item];
 
-Address.associate(connection.models);
-User.associate(connection.models);
-Field.associate(connection.models);
-Item.associate(connection.models);
+models.map(model => model.init(connection) && model.associate(connection.models));
 
 module.exports = connection;
