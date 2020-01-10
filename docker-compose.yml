@@ -4,7 +4,7 @@ services:
     container_name: sqlnode-postgres
     image: postgres:10-alpine
     ports:
-      - "5435:5432"
+      - "5432:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -16,4 +16,4 @@ services:
     depends_on:
       - db
     ports:
-      - 8089:8080
+      - 8080:8080
