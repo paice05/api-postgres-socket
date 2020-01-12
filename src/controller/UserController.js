@@ -17,7 +17,7 @@ class UserController extends BaseController {
 
     const isUser = await this.model.findOne({ where: { username } });
 
-    if (!isUser) return res.json({ message: 'User not found!' });
+    if (!isUser) return res.status(500).json({ message: 'User not found!' });
 
     return compare(password, isUser.password, (err, data) => {
       if (!data) { return res.status(500).json({ message: 'Password not found!' }); }
@@ -30,7 +30,7 @@ class UserController extends BaseController {
 
           return res.json({
             token,
-            data: isUser
+            user: isUser
           });
         }
       );

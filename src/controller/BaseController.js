@@ -30,7 +30,7 @@ class BaseController {
 
     const response = await this.model.findByPk(id);
 
-    if (!response) return res.json({ message: 'Record not found' });
+    if (!response) return res.status(500).json({ message: 'Record not found' });
 
     return res.json(response);
   }
@@ -58,7 +58,7 @@ class BaseController {
 
     const isRecord = await this.model.findByPk(id);
 
-    if (!isRecord) return res.json({ message: 'record not found!' });
+    if (!isRecord) return res.status(500).json({ message: 'record not found!' });
 
     await this.model.update(
       { ...body },
@@ -77,7 +77,7 @@ class BaseController {
 
     const isRecord = await this.model.findByPk(id);
 
-    if (!isRecord) return res.json({ message: 'record not found!' });
+    if (!isRecord) return res.status(500).json({ message: 'record not found!' });
 
     await this.model.destroy({ where: { id } });
 
